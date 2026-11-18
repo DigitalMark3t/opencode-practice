@@ -405,6 +405,22 @@ main {
   margin: 0;
 }
 
+/* The "Editor's pick" badge, used on a single card. It is a direct child
+   of the card, so the card's flex column places it above the title. */
+.card-badge {
+  align-self: flex-start;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px var(--color-accent-glow);
+}
+
 /* The genre line ("Genre: Racing") becomes a small blue pill.
    :first-of-type / :last-of-type let us style the two paragraphs
    differently without adding any classes to the HTML. */
