@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Discovery</title>
+  <meta name="description" content="A beginner-friendly PC game discovery page built with plain HTML.">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER: the site name and the main navigation menu.
+       The links point to the id attributes of the sections below.
+       ============================================================ -->
+  <header>
+    <p><strong>GAME DISCOVERY</strong></p>
+
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#featured">Featured Games</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       MAIN: the main content of the page.
+       Everything that is not the header or footer lives in here.
+       ============================================================ -->
+  <main>
+
+    <!-- HERO SECTION: the first thing a visitor reads. -->
+    <section id="home">
+      <h1>Find your next favorite game.</h1>
+      <p>
+        Game Discovery is a small practice website that helps you browse
+        hand-picked PC games. Every game below is listed with its genre and
+        a short description, so you can quickly see what looks interesting
+        before you commit your evening to it.
+      </p>
+    </section>
+
+    <!-- FEATURED GAMES SECTION: three game entries.
+         Each game is an <article>, because it is a self-contained piece
+         of content that makes sense on its own. -->
+    <section id="featured">
+      <h2>Featured Games</h2>
+
+      <p>
+        <em>Note: all three games below are fictional placeholders created
+        for practice. They do not exist, and the descriptions are made up.</em>
+      </p>
+
+      <!-- FILTER CONTROLS: buttons that show only one genre at a time.
+           The clicking itself is handled by script.js. -->
+      <div class="filter-bar">
+        <div class="filter-controls" role="group" aria-label="Filter games by genre">
+          <button type="button" class="filter-button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter-button" data-filter="racing" aria-pressed="false">Racing</button>
+          <button type="button" class="filter-button" data-filter="rpg" aria-pressed="false">RPG</button>
+          <button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+        </div>
+
+        <!-- A live status message: screen readers announce this text when
+             the number of visible games changes. -->
+        <p class="filter-status" role="status" aria-live="polite">Showing all 3 games.</p>
+      </div>
+
+      <article data-genre="racing">
+        <h3>Skyward Drift</h3>
+        <p><strong>Genre:</strong> Racing</p>
+        <p>
+          A fictional arcade racer set on floating islands high above the
+          clouds. Short races, bright colours, and simple controls that are
+          easy to pick up for a quick session.
+        </p>
+      </article>
+
+      <article data-genre="rpg">
+        <h3>Hollow Ember</h3>
+        <p><strong>Genre:</strong> Role-Playing Game (RPG)</p>
+        <p>
+          A fictional story-driven adventure through a slowly cooling
+          underground kingdom. Players explore, talk to characters, and make
+          small choices that change how the journey ends.
+        </p>
+      </article>
+
+      <article data-genre="puzzle">
+        <h3>Neon Circuit</h3>
+        <p><strong>Genre:</strong> Puzzle</p>
+        <p>
+          A fictional puzzle game about rerouting glowing power lines across
+          a dark city grid. Each level adds one new rule, making it calm at
+          the start and surprisingly tricky by the end.
+        </p>
+      </article>
+    </section>
+
+    <!-- ABOUT SECTION: who made the site and why. -->
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        This page is a learning project. It was built with plain HTML only,
+        with no styling and no JavaScript yet, as a first step towards
+        building websites from scratch.
+      </p>
+      <p>
+        The goal is to understand how a web page is structured before adding
+        anything on top of it. Styling and interactivity will be added later
+        as separate steps.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER: closing information that appears at the bottom of
+       every page, such as copyright or contact details.
+       ============================================================ -->
+  <footer>
+    <p>&copy; 2026 Game Discovery. A practice project, not a real store.</p>
+    <p>All game titles and descriptions on this page are fictional placeholders.</p>
+  </footer>
+
+</body>
+</html>

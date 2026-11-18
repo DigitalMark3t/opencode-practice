@@ -1,0 +1,557 @@
+/* ==========================================================================
+   GAME DISCOVERY — style.css
+
+   A single stylesheet for the one-page game discovery site.
+   No frameworks, no external fonts, no images: everything here is
+   plain CSS running on system fonts.
+
+   Contents
+   1.  Design tokens (custom properties)
+   2.  Base styles
+   3.  Header and navigation
+   4.  Hero
+   5.  Featured games
+   6.  About
+   7.  Footer
+   8.  Tablet adjustments
+   9.  Mobile adjustments
+   10. Reduced-motion support
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   Custom properties are variables. They are declared once on :root
+   (the <html> element) and reused with var(--name) everywhere below.
+   Change a value here and it updates across the whole site.
+   ========================================================================== */
+
+:root {
+  /* Colours */
+  --color-bg: #121417;              /* dark charcoal page background */
+  --color-surface: #181b20;         /* card background */
+  --color-surface-deep: #14171c;    /* card gradient end */
+  --color-border: #262b33;          /* subtle dividing lines */
+  --color-text: #e9ecf1;            /* main readable text */
+  --color-muted: #96a0af;           /* secondary text */
+  --color-accent: #4da3ff;          /* electric blue */
+  --color-accent-soft: rgba(77, 163, 255, 0.35);
+  --color-accent-wash: rgba(77, 163, 255, 0.08);
+  --color-accent-glow: rgba(77, 163, 255, 0.12);
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 5rem;
+
+  /* Layout */
+  --content-width: 1080px;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --header-offset: 5.5rem;          /* keeps anchored sections clear of the sticky header */
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+
+  /* Typography: system font stack only, so nothing is downloaded */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+
+/* ==========================================================================
+   2. BASE STYLES
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+
+  /* A very faint blue glow behind the top of the page.
+     Drawn with CSS only, so no image file is needed. */
+  background-image: radial-gradient(
+    ellipse 75% 50% at 78% -10%,
+    var(--color-accent-glow),
+    transparent 70%
+  );
+  background-repeat: no-repeat;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+/* A visible focus ring for keyboard users. This only appears when someone
+   navigates with the Tab key, not when they click with a mouse. */
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+
+/* ==========================================================================
+   3. HEADER AND NAVIGATION
+   The header is sticky: it stays at the top of the window while scrolling.
+   Flexbox puts the site name on the left and the links on the right.
+   ========================================================================== */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm) var(--space-lg);
+
+  padding-block: var(--space-md);
+
+  /* This centres the header content in the same column as <main> below,
+     while the header's background still spans the full window width. */
+  padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
+
+  background-color: rgba(18, 20, 23, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Site name: the <p><strong>GAME DISCOVERY</strong></p> in the header. */
+header > p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* A small glowing blue square before the site name. */
+header > p::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.65rem;
+  border-radius: 2px;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 14px var(--color-accent-soft);
+}
+
+/* The list of navigation links, laid out in a row. */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  display: inline-block;
+  padding-block: 0.3rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+nav a:hover {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent-soft);
+}
+
+/* Keyboard focus for navigation links. outline-offset gives the ring
+   a little breathing room so it never touches the text. */
+nav a:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* <main> uses the same centred column as the header. */
+main {
+  padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
+}
+
+
+/* ==========================================================================
+   4. HERO
+   A large headline with generous vertical breathing room.
+   ========================================================================== */
+
+#home {
+  padding-block: clamp(4rem, 11vw, 7.5rem);
+  scroll-margin-top: var(--header-offset);
+}
+
+/* A short blue accent line above the headline, purely decorative. */
+#home::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin-bottom: var(--space-lg);
+  border-radius: 999px;
+  background-image: linear-gradient(90deg, var(--color-accent), transparent);
+  box-shadow: 0 0 20px var(--color-accent-soft);
+}
+
+#home h1 {
+  max-width: 16ch;                  /* keeps the headline to a few strong lines */
+  margin-bottom: var(--space-md);
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+#home p {
+  max-width: 58ch;                  /* comfortable reading width */
+  margin: 0;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  color: var(--color-muted);
+}
+
+
+/* ==========================================================================
+   5. FEATURED GAMES
+   CSS Grid places the three <article> cards side by side on wide screens
+   and stacks them into one column when space runs out.
+   auto-fill (rather than auto-fit) keeps empty columns in reserve, so a
+   single card keeps its normal width when the filter hides the other two.
+   ========================================================================== */
+
+#featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr));
+  gap: var(--space-md);
+
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  scroll-margin-top: var(--header-offset);
+  border-top: 1px solid var(--color-border);
+}
+
+/* The heading and the italic note should span the full grid width,
+   not sit in a narrow card-sized column. */
+#featured > h2,
+#featured > p {
+  grid-column: 1 / -1;
+}
+
+#featured h2 {
+  font-size: clamp(1.6rem, 3vw, 2rem);
+}
+
+/* The "these games are fictional" note, styled as a quiet callout. */
+#featured > p {
+  max-width: 62ch;
+  padding-left: var(--space-md);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  border-left: 2px solid var(--color-accent-soft);
+}
+
+/* Filter controls: a row of small pill buttons above the cards.
+   script.js sets aria-pressed="true" on whichever one is selected. */
+.filter-bar {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm) var(--space-md);
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.filter-button {
+  padding: 0.45rem 1.05rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.filter-button:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent-soft);
+}
+
+.filter-button[aria-pressed="true"] {
+  color: var(--color-accent);
+  background-color: var(--color-accent-wash);
+  border-color: var(--color-accent-soft);
+}
+
+.filter-button:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.filter-status {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+/* Cards hidden by script.js must leave the grid completely.
+   Without this rule, the card's own display: flex below would win. */
+#featured article[hidden] {
+  display: none;
+}
+
+/* Each game card. */
+#featured article {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  overflow: hidden;
+
+  padding: var(--space-lg) clamp(1.25rem, 2vw, 1.6rem);
+
+  background-image: linear-gradient(
+    180deg,
+    var(--color-surface),
+    var(--color-surface-deep)
+  );
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  transition: transform 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* A thin blue line along the top edge of every card. */
+#featured article::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+
+#featured article:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent-soft);
+  box-shadow: 0 20px 40px -24px rgba(77, 163, 255, 0.55);
+}
+
+#featured article:hover::before {
+  opacity: 1;
+}
+
+#featured article h3 {
+  font-size: 1.3rem;
+  letter-spacing: -0.015em;
+}
+
+#featured article p {
+  margin: 0;
+}
+
+/* The genre line ("Genre: Racing") becomes a small blue pill.
+   :first-of-type / :last-of-type let us style the two paragraphs
+   differently without adding any classes to the HTML. */
+#featured article > p:first-of-type {
+  align-self: flex-start;
+  padding: 0.25rem 0.7rem;
+  background-color: var(--color-accent-wash);
+  border: 1px solid rgba(77, 163, 255, 0.28);
+  border-radius: 999px;
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+#featured article > p:first-of-type strong {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+#featured article > p:last-of-type {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+
+/* ==========================================================================
+   6. ABOUT
+   ========================================================================== */
+
+#about {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  scroll-margin-top: var(--header-offset);
+  border-top: 1px solid var(--color-border);
+}
+
+#about h2 {
+  margin-bottom: var(--space-md);
+  font-size: clamp(1.6rem, 3vw, 2rem);
+}
+
+#about p {
+  max-width: 66ch;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+#about p + p {
+  margin-top: var(--space-md);
+}
+
+
+/* ==========================================================================
+   7. FOOTER
+   ========================================================================== */
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-lg);
+
+  padding-block: var(--space-xl);
+  padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
+
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
+
+footer p {
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   8. TABLET ADJUSTMENTS
+   Below about 820px the grid already reflows on its own thanks to
+   auto-fit; these rules just soften the large spacing.
+   ========================================================================== */
+
+@media (max-width: 820px) {
+  #home {
+    padding-block: clamp(3rem, 9vw, 5rem);
+  }
+
+  header {
+    padding-block: var(--space-sm);
+  }
+}
+
+
+/* ==========================================================================
+   9. MOBILE ADJUSTMENTS
+   Below 600px the header stacks vertically and stops following the scroll,
+   so it cannot cover the content on a small screen.
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  header {
+    position: static;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block: var(--space-sm);
+  }
+
+  nav ul {
+    gap: var(--space-xs) var(--space-md);
+  }
+
+  nav a {
+    font-size: 0.85rem;
+  }
+
+  /* No sticky header on phones, so no offset is needed for anchored links. */
+  #home,
+  #featured,
+  #about {
+    scroll-margin-top: 0;
+  }
+
+  #featured {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+  }
+}
+
+
+/* ==========================================================================
+   10. REDUCED-MOTION SUPPORT
+   Respects the operating-system setting that asks for less animation.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
