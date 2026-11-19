@@ -287,15 +287,83 @@ main {
   border-left: 2px solid var(--color-accent-soft);
 }
 
-/* Filter controls: a row of small pill buttons above the cards.
-   script.js sets aria-pressed="true" on whichever one is selected. */
-.filter-bar {
+/* Catalogue controls: search, category group, genre group, and status.
+   The wrapper is a grid child, so spanning every column keeps the controls
+   exactly as wide as the card grid below. */
+.catalogue-controls {
   grid-column: 1 / -1;
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Search field ----------------------------------------------------------- */
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 34rem;
+}
+
+.search-label {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.search-input {
+  padding: 0.6rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  transition: border-color 0.18s ease;
+}
+
+.search-input::placeholder {
+  color: var(--color-muted);
+  opacity: 0.75;
+}
+
+.search-input:hover {
+  border-color: var(--color-accent-soft);
+}
+
+.search-input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-color: var(--color-accent-soft);
+}
+
+/* Filter groups ---------------------------------------------------------- */
+
+/* Each group pairs a visible label with its own row of buttons, so the
+   category and genre controls can be told apart visually and by screen
+   readers (both groups use aria-labelledby). */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.filter-group-label {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.filter-bar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm) var(--space-md);
+  align-items: flex-end;
+  gap: var(--space-md);
 }
 
 .filter-controls {
@@ -304,7 +372,10 @@ main {
   gap: var(--space-xs);
 }
 
-.filter-button {
+/* Category buttons share the genre buttons' look. They use a separate
+   class because script.js binds behaviour to .filter-button. */
+.filter-button,
+.category-button {
   padding: 0.45rem 1.05rem;
   font-family: inherit;
   font-size: 0.85rem;
@@ -319,27 +390,40 @@ main {
     border-color 0.18s ease;
 }
 
-.filter-button:hover {
+.filter-button:hover,
+.category-button:hover {
   color: var(--color-text);
   border-color: var(--color-accent-soft);
 }
 
-.filter-button[aria-pressed="true"] {
+.filter-button[aria-pressed="true"],
+.category-button[aria-pressed="true"] {
   color: var(--color-accent);
   background-color: var(--color-accent-wash);
   border-color: var(--color-accent-soft);
 }
 
-.filter-button:focus-visible {
+.filter-button:focus-visible,
+.category-button:focus-visible {
   color: var(--color-text);
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
 .filter-status {
-  margin: 0;
+  margin: 0 0 0 auto;
   color: var(--color-muted);
   font-size: 0.85rem;
+}
+
+/* Empty state: hidden until a later phase decides there are no matches. */
+.catalogue-empty {
+  margin: 0;
+  padding: var(--space-lg);
+  text-align: center;
+  color: var(--color-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 /* Cards hidden by script.js must leave the grid completely.
@@ -600,6 +684,20 @@ footer p {
 
   #featured {
     grid-template-columns: 1fr;
+  }
+
+  /* Stack the filter groups and let the search field use the full width. */
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-status {
+    margin-left: 0;
+  }
+
+  .search-field {
+    max-width: none;
   }
 
   footer {

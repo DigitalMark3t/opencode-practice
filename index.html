@@ -55,19 +55,56 @@
         do not describe real games or releases.</em>
       </p>
 
-      <!-- FILTER CONTROLS: buttons that show only one genre at a time.
-           The clicking itself is handled by script.js. -->
-      <div class="filter-bar">
-        <div class="filter-controls" role="group" aria-label="Filter games by genre">
-          <button type="button" class="filter-button" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" class="filter-button" data-filter="racing" aria-pressed="false">Racing</button>
-          <button type="button" class="filter-button" data-filter="rpg" aria-pressed="false">RPG</button>
-          <button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+      <!-- CATALOGUE CONTROLS: search, editorial category filters, and genre
+           filters. The genre buttons are wired up by script.js today; the
+           search field and category buttons become active in the next phase. -->
+      <div class="catalogue-controls">
+
+        <div class="search-field">
+          <label class="search-label" for="catalogue-search">Search catalogue entries</label>
+          <input
+            class="search-input"
+            id="catalogue-search"
+            name="catalogue-search"
+            type="search"
+            placeholder="Title, genre, platform, or keyword"
+            autocomplete="off"
+          >
         </div>
 
-        <!-- A live status message: screen readers announce this text when
-             the number of visible games changes. -->
-        <p class="filter-status" role="status" aria-live="polite">Showing all 6 games.</p>
+        <div class="filter-bar">
+          <div class="filter-group">
+            <p class="filter-group-label" id="category-filter-label">Category</p>
+            <div class="filter-controls" role="group" aria-labelledby="category-filter-label">
+              <button type="button" class="category-button" data-category="all" aria-pressed="true">All</button>
+              <button type="button" class="category-button" data-category="discover" aria-pressed="false">Discover</button>
+              <button type="button" class="category-button" data-category="revisit" aria-pressed="false">Revisit</button>
+              <button type="button" class="category-button" data-category="community" aria-pressed="false">Community Projects</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <p class="filter-group-label" id="genre-filter-label">Genre</p>
+            <div class="filter-controls" role="group" aria-labelledby="genre-filter-label">
+              <button type="button" class="filter-button" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="filter-button" data-filter="racing" aria-pressed="false">Racing</button>
+              <button type="button" class="filter-button" data-filter="rpg" aria-pressed="false">RPG</button>
+              <button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+            </div>
+          </div>
+
+          <!-- A live status message: screen readers announce this text when
+               the number of visible entries changes. -->
+          <p class="filter-status" role="status" aria-live="polite">Showing all 6 games.</p>
+        </div>
+
+        <!-- Shown only when no catalogue entry matches the active filters.
+             A later phase will toggle the hidden attribute. -->
+        <p class="catalogue-empty" hidden>
+          No catalogue entries match your search or filters. Try a different
+          search, or choose All in each filter group.
+        </p>
+
       </div>
 
       <article class="catalogue-card"
@@ -230,7 +267,7 @@
        ============================================================ -->
   <footer>
     <p>&copy; 2026 Game Discovery. A practice project, not a real store.</p>
-    <p>All game titles and descriptions on this page are fictional placeholders.</p>
+    <p>All catalogue entries and descriptions on this page are fictional placeholders.</p>
   </footer>
 
 </body>
