@@ -344,12 +344,12 @@ main {
 
 /* Cards hidden by script.js must leave the grid completely.
    Without this rule, the card's own display: flex below would win. */
-#featured article[hidden] {
+.catalogue-card[hidden] {
   display: none;
 }
 
 /* Each game card. */
-#featured article {
+.catalogue-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -371,7 +371,7 @@ main {
 }
 
 /* A thin blue line along the top edge of every card. */
-#featured article::before {
+.catalogue-card::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -386,30 +386,63 @@ main {
   transition: opacity 0.2s ease;
 }
 
-#featured article:hover {
+.catalogue-card:hover {
   transform: translateY(-4px);
   border-color: var(--color-accent-soft);
   box-shadow: 0 20px 40px -24px rgba(77, 163, 255, 0.55);
 }
 
-#featured article:hover::before {
+.catalogue-card:hover::before {
   opacity: 1;
 }
 
-#featured article h3 {
+.catalogue-card h3 {
   font-size: 1.3rem;
   letter-spacing: -0.015em;
 }
 
-#featured article p {
+.catalogue-card p {
   margin: 0;
 }
 
-/* The "Editor's pick" badge, used on a single card. It is a direct child
-   of the card, so the card's flex column places it above the title. */
+/* The top row holds the editorial category label and, on one card only,
+   the "Editor's pick" badge. min-height keeps the title aligned across
+   cards even though only one card has a badge. */
+.card-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  min-height: 1.6rem;
+}
+
+/* Editorial category label, e.g. "Discover" or "Community Projects". */
+.card-category {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* A small blue dot before each category label. */
+.card-category::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  vertical-align: middle;
+}
+
+/* The "Editor's pick" badge. It sits in the card's top row, so it is
+   positioned by the flex layout rather than by the card itself. */
 .card-badge {
-  align-self: flex-start;
   padding: 0.2rem 0.6rem;
+  white-space: nowrap;
   background-color: var(--color-accent);
   color: var(--color-bg);
   border-radius: 999px;
@@ -421,10 +454,10 @@ main {
   box-shadow: 0 0 18px var(--color-accent-glow);
 }
 
-/* The genre line ("Genre: Racing") becomes a small blue pill.
-   :first-of-type / :last-of-type let us style the two paragraphs
-   differently without adding any classes to the HTML. */
-#featured article > p:first-of-type {
+/* The genre line ("Genre: Racing") is a small blue pill. It uses an
+   explicit class so the card can gain more paragraphs later without
+   changing which text receives the pill styling. */
+.card-genre {
   align-self: flex-start;
   padding: 0.25rem 0.7rem;
   background-color: var(--color-accent-wash);
@@ -438,14 +471,35 @@ main {
   text-transform: uppercase;
 }
 
-#featured article > p:first-of-type strong {
+.card-genre strong {
   color: var(--color-muted);
   font-weight: 600;
 }
 
-#featured article > p:last-of-type {
+.card-description {
   color: var(--color-muted);
   font-size: 0.95rem;
+}
+
+/* Platform and year, pinned to the bottom of every card. margin-top auto
+   pushes it down so the meta rows line up across a row of cards. */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-meta li + li {
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--color-border);
 }
 
 

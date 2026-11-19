@@ -20,7 +20,7 @@
     <nav aria-label="Main navigation">
       <ul>
         <li><a href="#home">Home</a></li>
-        <li><a href="#featured">Featured Games</a></li>
+        <li><a href="#featured">Catalogue</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
@@ -36,22 +36,23 @@
     <section id="home">
       <h1>Find your next favorite game.</h1>
       <p>
-        Game Discovery is a small practice website that helps you browse
-        hand-picked PC games. Every game below is listed with its genre and
-        a short description, so you can quickly see what looks interesting
-        before you commit your evening to it.
+        An independent PC gaming catalogue for readers who care about what
+        came before. Browse new and overlooked discoveries, return to older
+        releases that deserve another evening, or explore the community
+        projects keeping classic games playable on modern hardware.
       </p>
     </section>
 
-    <!-- FEATURED GAMES SECTION: three game entries.
-         Each game is an <article>, because it is a self-contained piece
-         of content that makes sense on its own. -->
+    <!-- CATALOGUE SECTION: six fictional entries, two per editorial
+         category. Each entry is an <article>, because it is a
+         self-contained piece of content that makes sense on its own. -->
     <section id="featured">
-      <h2>Featured Games</h2>
+      <h2>Game Catalogue</h2>
 
       <p>
-        <em>Note: all three games below are fictional placeholders created
-        for practice. They do not exist, and the descriptions are made up.</em>
+        <em>Note: all six entries below are fictional placeholders created
+        for practice. The titles, dates, platforms, and community projects
+        do not describe real games or releases.</em>
       </p>
 
       <!-- FILTER CONTROLS: buttons that show only one genre at a time.
@@ -66,38 +67,141 @@
 
         <!-- A live status message: screen readers announce this text when
              the number of visible games changes. -->
-        <p class="filter-status" role="status" aria-live="polite">Showing all 3 games.</p>
+        <p class="filter-status" role="status" aria-live="polite">Showing all 6 games.</p>
       </div>
 
-      <article data-genre="racing">
-        <div class="card-badge">EDITOR'S PICK</div>
+      <article class="catalogue-card"
+               data-category="discover"
+               data-genre="racing"
+               data-platform="PC"
+               data-year="2024"
+               data-search="arcade racer floating islands quick sessions">
+        <div class="card-top">
+          <span class="card-category">Discover</span>
+          <span class="card-badge">EDITOR'S PICK</span>
+        </div>
         <h3>Skyward Drift</h3>
-        <p><strong>Genre:</strong> Racing</p>
-        <p>
+        <p class="card-genre"><strong>Genre:</strong> Racing</p>
+        <p class="card-description">
           A fictional arcade racer set on floating islands high above the
           clouds. Short races, bright colours, and simple controls that are
           easy to pick up for a quick session.
         </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2024</li>
+        </ul>
       </article>
 
-      <article data-genre="rpg">
-        <h3>Hollow Ember</h3>
-        <p><strong>Genre:</strong> Role-Playing Game (RPG)</p>
-        <p>
-          A fictional story-driven adventure through a slowly cooling
-          underground kingdom. Players explore, talk to characters, and make
-          small choices that change how the journey ends.
-        </p>
-      </article>
-
-      <article data-genre="puzzle">
+      <article class="catalogue-card"
+               data-category="discover"
+               data-genre="puzzle"
+               data-platform="PC"
+               data-year="2023"
+               data-search="power grid neon city logic levels">
+        <div class="card-top">
+          <span class="card-category">Discover</span>
+        </div>
         <h3>Neon Circuit</h3>
-        <p><strong>Genre:</strong> Puzzle</p>
-        <p>
+        <p class="card-genre"><strong>Genre:</strong> Puzzle</p>
+        <p class="card-description">
           A fictional puzzle game about rerouting glowing power lines across
           a dark city grid. Each level adds one new rule, making it calm at
           the start and surprisingly tricky by the end.
         </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2023</li>
+        </ul>
+      </article>
+
+      <article class="catalogue-card"
+               data-category="revisit"
+               data-genre="rpg"
+               data-platform="PC"
+               data-year="2011"
+               data-search="underground kingdom story choices adventure">
+        <div class="card-top">
+          <span class="card-category">Revisit</span>
+        </div>
+        <h3>Hollow Ember</h3>
+        <p class="card-genre"><strong>Genre:</strong> Role-Playing Game (RPG)</p>
+        <p class="card-description">
+          A fictional story-driven adventure through a slowly cooling
+          underground kingdom. Players explore, talk to characters, and make
+          small choices that change how the journey ends.
+        </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2011</li>
+        </ul>
+      </article>
+
+      <article class="catalogue-card"
+               data-category="revisit"
+               data-genre="racing"
+               data-platform="PC"
+               data-year="2008"
+               data-search="rally vintage low poly split screen forgotten">
+        <div class="card-top">
+          <span class="card-category">Revisit</span>
+        </div>
+        <h3>Ashfall Rally</h3>
+        <p class="card-genre"><strong>Genre:</strong> Racing</p>
+        <p class="card-description">
+          A fictional late-2000s rally racer with chunky low-poly cars and
+          muddy mountain stages. It was quickly forgotten on release, but its
+          split-screen mode and forgiving handling still hold up today.
+        </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2008</li>
+        </ul>
+      </article>
+
+      <article class="catalogue-card"
+               data-category="community"
+               data-genre="rpg"
+               data-platform="PC, Android"
+               data-year="2025"
+               data-search="source port recompilation preservation android engine">
+        <div class="card-top">
+          <span class="card-category">Community Projects</span>
+        </div>
+        <h3>Ember Rekindled</h3>
+        <p class="card-genre"><strong>Genre:</strong> Role-Playing Game (RPG)</p>
+        <p class="card-description">
+          A fictional community project that rebuilds Hollow Ember for modern
+          PCs and Android. Volunteers recreated the original engine by hand,
+          kept old save files readable, and preserved the atmosphere of the
+          2011 release.
+        </p>
+        <ul class="card-meta">
+          <li>PC, Android</li>
+          <li>2025</li>
+        </ul>
+      </article>
+
+      <article class="catalogue-card"
+               data-category="community"
+               data-genre="puzzle"
+               data-platform="PC"
+               data-year="2024"
+               data-search="decompilation source port level editor preservation archive">
+        <div class="card-top">
+          <span class="card-category">Community Projects</span>
+        </div>
+        <h3>Gridline Restored</h3>
+        <p class="card-genre"><strong>Genre:</strong> Puzzle</p>
+        <p class="card-description">
+          A fictional fan-made source port of Neon Circuit, adding widescreen
+          support, a level editor, and a browsable archive of
+          community-made puzzles originally shared on the game's forums.
+        </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2024</li>
+        </ul>
       </article>
     </section>
 
@@ -105,14 +209,16 @@
     <section id="about">
       <h2>About</h2>
       <p>
-        This page is a learning project. It was built with plain HTML only,
-        with no styling and no JavaScript yet, as a first step towards
-        building websites from scratch.
+        Game Discovery is an independent PC gaming catalogue built as a
+        learning project with plain HTML, CSS, and JavaScript. It covers
+        three editorial strands: new and overlooked discoveries, older
+        releases worth revisiting, and community projects that keep classic
+        games playable on modern systems.
       </p>
       <p>
-        The goal is to understand how a web page is structured before adding
-        anything on top of it. Styling and interactivity will be added later
-        as separate steps.
+        Every entry is a fictional placeholder written for practice. Real
+        games, verified release details, and real community projects will
+        follow as the catalogue grows.
       </p>
     </section>
 
