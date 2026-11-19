@@ -43,16 +43,19 @@
       </p>
     </section>
 
-    <!-- CATALOGUE SECTION: six fictional entries, two per editorial
-         category. Each entry is an <article>, because it is a
-         self-contained piece of content that makes sense on its own. -->
+    <!-- CATALOGUE SECTION: seven entries — three Discover, two Revisit,
+         and two Community Projects. Entries marked Practice Placeholder
+         are fictional examples created for development; the others
+         represent real games or community projects. Each entry is an
+         <article>, because it is a self-contained piece of content that
+         makes sense on its own. -->
     <section id="featured">
       <h2>Game Catalogue</h2>
 
       <p>
-        <em>Note: all six entries below are fictional placeholders created
-        for practice. The titles, dates, platforms, and community projects
-        do not describe real games or releases.</em>
+        <em>Note: entries marked Practice Placeholder are fictional examples
+        created for development. Other entries represent real games or
+        community projects.</em>
       </p>
 
       <!-- CATALOGUE CONTROLS: search, editorial category filters, and genre
@@ -89,12 +92,13 @@
               <button type="button" class="filter-button" data-filter="racing" aria-pressed="false">Racing</button>
               <button type="button" class="filter-button" data-filter="rpg" aria-pressed="false">RPG</button>
               <button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+              <button type="button" class="filter-button" data-filter="life-simulation" aria-pressed="false">Life Simulation</button>
             </div>
           </div>
 
           <!-- A live status message: screen readers announce this text when
                the number of visible entries changes. -->
-          <p class="filter-status" role="status" aria-live="polite">Showing 6 of 6 entries.</p>
+          <p class="filter-status" role="status" aria-live="polite">Showing 7 of 7 entries.</p>
         </div>
 
         <!-- Shown only when no catalogue entry matches the active filters.
@@ -115,6 +119,7 @@
         <div class="card-top">
           <span class="card-category">Discover</span>
           <span class="card-badge">EDITOR'S PICK</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Skyward Drift</h3>
         <p class="card-genre"><strong>Genre:</strong> Racing</p>
@@ -137,6 +142,7 @@
                data-search="power grid neon city logic levels">
         <div class="card-top">
           <span class="card-category">Discover</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Neon Circuit</h3>
         <p class="card-genre"><strong>Genre:</strong> Puzzle</p>
@@ -152,6 +158,28 @@
       </article>
 
       <article class="catalogue-card"
+               data-category="discover"
+               data-genre="life-simulation"
+               data-platform="PC"
+               data-year="2026"
+               data-search="village in the shade kagatsu nippon ichi software nis america farming simulation life simulation farming sim japanese village supernatural mystery horror night exploration crops livestock fishing hunting crafting">
+        <div class="card-top">
+          <span class="card-category">Discover</span>
+        </div>
+        <h3>Village in the Shade</h3>
+        <p class="card-genre"><strong>Genre:</strong> Life Simulation</p>
+        <p class="card-description">
+          Build a quiet life in Kagatsu, a hand-painted Japanese mountain
+          village. Grow crops, raise livestock, and befriend residents—but be
+          careful: the village has rules, and the night holds secrets.
+        </p>
+        <ul class="card-meta">
+          <li>PC</li>
+          <li>2026</li>
+        </ul>
+      </article>
+
+      <article class="catalogue-card"
                data-category="revisit"
                data-genre="rpg"
                data-platform="PC"
@@ -159,6 +187,7 @@
                data-search="underground kingdom story choices adventure">
         <div class="card-top">
           <span class="card-category">Revisit</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Hollow Ember</h3>
         <p class="card-genre"><strong>Genre:</strong> Role-Playing Game (RPG)</p>
@@ -181,6 +210,7 @@
                data-search="rally vintage low poly split screen forgotten">
         <div class="card-top">
           <span class="card-category">Revisit</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Ashfall Rally</h3>
         <p class="card-genre"><strong>Genre:</strong> Racing</p>
@@ -203,6 +233,7 @@
                data-search="source port recompilation preservation android engine">
         <div class="card-top">
           <span class="card-category">Community Projects</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Ember Rekindled</h3>
         <p class="card-genre"><strong>Genre:</strong> Role-Playing Game (RPG)</p>
@@ -226,6 +257,7 @@
                data-search="decompilation source port level editor preservation archive">
         <div class="card-top">
           <span class="card-category">Community Projects</span>
+          <span class="card-placeholder">PRACTICE PLACEHOLDER</span>
         </div>
         <h3>Gridline Restored</h3>
         <p class="card-genre"><strong>Genre:</strong> Puzzle</p>
@@ -252,9 +284,9 @@
         games playable on modern systems.
       </p>
       <p>
-        Every entry is a fictional placeholder written for practice. Real
-        games, verified release details, and real community projects will
-        follow as the catalogue grows.
+        Entries marked Practice Placeholder are fictional examples created
+        for development. Other entries represent real games or community
+        projects.
       </p>
     </section>
 
@@ -266,7 +298,7 @@
        ============================================================ -->
   <footer>
     <p>&copy; 2026 Game Discovery. A practice project, not a real store.</p>
-    <p>All catalogue entries and descriptions on this page are fictional placeholders.</p>
+    <p>Entries marked Practice Placeholder are fictional examples created for development. Other entries represent real games or community projects.</p>
   </footer>
 
 </body>

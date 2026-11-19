@@ -489,9 +489,9 @@ main {
   margin: 0;
 }
 
-/* The top row holds the editorial category label and, on one card only,
-   the "Editor's pick" badge. min-height keeps the title aligned across
-   cards even though only one card has a badge. */
+/* The top row holds the editorial category label plus, on some cards,
+   the "Editor's pick" badge and/or the "Practice placeholder" label.
+   min-height keeps the title aligned across cards even when a row wraps. */
 .card-top {
   display: flex;
   flex-wrap: wrap;
@@ -536,6 +536,33 @@ main {
   line-height: 1.6;
   text-transform: uppercase;
   box-shadow: 0 0 18px var(--color-accent-glow);
+}
+
+/* The "Practice placeholder" label marks fictional sample entries. It uses
+   a quiet outline instead of the solid accent fill, so it stays visually
+   distinct from the Editor's Pick badge when a card carries both. */
+.card-placeholder {
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+/* Push the labels to the right edge of the top row and keep them together
+   when a card has both an Editor's Pick badge and a placeholder label. */
+.card-badge,
+.card-placeholder {
+  margin-left: auto;
+}
+
+.card-badge + .card-placeholder {
+  margin-left: 0;
 }
 
 /* The genre line ("Genre: Racing") is a small blue pill. It uses an
