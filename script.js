@@ -1,46 +1,101 @@
 /* ==========================================================================
    GAME DISCOVERY — script.js
 
-   Adds a genre filter to the Featured Games section.
+   Filtering for the catalogue: one search field, one category group, and
+   one genre group. Every control writes into a single shared "state"
+   object, and updateCatalogue() decides what should be visible.
 
-   How it works, in three steps:
-   1. Find the buttons, the game cards, and the status message on the page.
-   2. Listen for a click on any filter button.
-   3. When one is clicked, show only the matching cards and update the
-      button states and the status message.
+   How the three conditions combine: an entry is shown only when it matches
+   the search text AND the selected category AND the selected genre.
+   Choosing "All" in a group switches that condition off.
 
-   The <script> tag in index.html uses the "defer" attribute, which means
-   this file runs only after the HTML has finished loading. That is why the
-   elements below can be found immediately.
+   The <script> tag in index.html uses the "defer" attribute, so this file
+   runs after the HTML has loaded and the elements below already exist.
    ========================================================================== */
 
 
 /* --------------------------------------------------------------------------
    1. FIND THE ELEMENTS
-   querySelectorAll returns a NodeList: a list of every element that matches
-   the CSS-style selector. querySelector returns just the first match.
+   querySelectorAll returns a NodeList: a list of every element matching the
+   CSS-style selector. querySelector returns just the first match.
    -------------------------------------------------------------------------- */
 
-var filterButtons = document.querySelectorAll(".filter-button");
-var gameCards = document.querySelectorAll("#featured article");
+var searchInput = document.querySelector("#catalogue-search");
+var categoryButtons = document.querySelectorAll(".category-button");
+var genreButtons = document.querySelectorAll(".filter-button");
+var catalogueCards = document.querySelectorAll(".catalogue-card");
 var statusMessage = document.querySelector(".filter-status");
+var emptyState = document.querySelector(".catalogue-empty");
+
+/* The total is the size of the whole catalogue. It never changes while
+   filtering, which is why it is stored once. */
+var totalEntries = catalogueCards.length;
 
 
 /* --------------------------------------------------------------------------
-   2. THE MAIN FUNCTION
-   applyFilter() does one complete job: given a genre, show the matching
-   cards and update every piece of interface that depends on it.
+   2. SHARED STATE
+   All three controls write into this one object, so no control ever needs to
+   read the others from the page. "all" means "this filter is switched off".
    -------------------------------------------------------------------------- */
 
-function applyFilter(genre, label) {
+var state = {
+  search: "",
+  category: "all",
+  genre: "all"
+};
+
+
+/* --------------------------------------------------------------------------
+   3. SEARCH TEXT
+   Gather every piece of text a visitor might search for: title, category,
+   genre, description, platform, year, and the optional data-search keywords
+   from the HTML. The "Editor's pick" badge is deliberately left out.
+   Everything is lowercased so matching is case-insensitive.
+   -------------------------------------------------------------------------- */
+
+function getSearchText(card) {
+  var parts = [
+    card.querySelector("h3").textContent,
+    card.querySelector(".card-category").textContent,
+    card.querySelector(".card-genre").textContent,
+    card.querySelector(".card-description").textContent,
+    card.dataset.search || ""
+  ];
+
+  card.querySelectorAll(".card-meta li").forEach(function (item) {
+    parts.push(item.textContent);
+  });
+
+  return parts.join(" ").toLowerCase();
+}
+
+
+/* --------------------------------------------------------------------------
+   4. THE MAIN FUNCTION
+   updateCatalogue() reads the state object and updates everything that
+   depends on it: visible cards, both button groups, the live status message,
+   and the empty state.
+   -------------------------------------------------------------------------- */
+
+function updateCatalogue() {
+  /* Trim and lowercase the search term once, instead of once per card. */
+  var query = state.search.trim().toLowerCase();
   var visibleCount = 0;
 
-  /* Loop over every game card and decide whether it should be visible.
-     card.dataset.genre reads the data-genre="..." attribute from the HTML.
-     Setting card.hidden = true adds the hidden attribute, which CSS turns
-     into display: none. */
-  gameCards.forEach(function (card) {
-    var matches = genre === "all" || card.dataset.genre === genre;
+  catalogueCards.forEach(function (card) {
+    var matchesSearch =
+      query === "" || getSearchText(card).indexOf(query) !== -1;
+
+    /* card.dataset reads the data-category / data-genre attributes.
+       Setting card.hidden = true adds the hidden attribute, which CSS
+       turns into display: none. */
+    var matchesCategory =
+      state.category === "all" || card.dataset.category === state.category;
+    var matchesGenre =
+      state.genre === "all" || card.dataset.genre === state.genre;
+
+    /* AND logic: every active condition has to be true. */
+    var matches = matchesSearch && matchesCategory && matchesGenre;
 
     card.hidden = !matches;
 
@@ -49,44 +104,65 @@ function applyFilter(genre, label) {
     }
   });
 
-  /* Mark the clicked button as selected and all others as not selected.
-     aria-pressed is a real accessibility signal: screen readers announce
-     the button as "pressed" or "not pressed". */
-  filterButtons.forEach(function (button) {
-    var isSelected = button.dataset.filter === genre;
-    button.setAttribute("aria-pressed", String(isSelected));
+  /* Each group is updated on its own, so exactly one button per group is
+     pressed and the groups never reset each other. */
+  categoryButtons.forEach(function (button) {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.category === state.category)
+    );
   });
 
-  /* Update the status message. Singular and plural need different wording. */
-  var gameWord = visibleCount === 1 ? "game" : "games";
+  genreButtons.forEach(function (button) {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.filter === state.genre)
+    );
+  });
 
-  if (genre === "all") {
-    statusMessage.textContent = "Showing all " + visibleCount + " " + gameWord + ".";
-  } else {
-    statusMessage.textContent =
-      "Showing " + visibleCount + " " + gameWord + " in " + label + ".";
-  }
+  /* The second number is always the whole catalogue, never the filtered
+     count. "entries" matches the site's catalogue terminology. */
+  statusMessage.textContent =
+    "Showing " + visibleCount + " of " + totalEntries + " entries.";
+
+  /* Show the empty state only when nothing matches. */
+  emptyState.hidden = visibleCount !== 0;
 }
 
 
 /* --------------------------------------------------------------------------
-   3. LISTEN FOR CLICKS
-   Each button gets its own click listener. When clicked, it passes its
-   data-filter value ("racing", "rpg", ...) and its visible text label
-   ("Racing", "RPG", ...) to applyFilter().
+   5. LISTEN FOR CHANGES
+   Each control changes one field of the state object and then asks
+   updateCatalogue() to redraw. No other field is touched, so the other
+   controls keep their current values.
    -------------------------------------------------------------------------- */
 
-filterButtons.forEach(function (button) {
+/* "input" fires on every keystroke and also when the field is cleared,
+   including the browser's built-in clear button. */
+searchInput.addEventListener("input", function () {
+  state.search = searchInput.value;
+  updateCatalogue();
+});
+
+categoryButtons.forEach(function (button) {
   button.addEventListener("click", function () {
-    applyFilter(button.dataset.filter, button.textContent);
+    state.category = button.dataset.category;
+    updateCatalogue();
+  });
+});
+
+genreButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    state.genre = button.dataset.filter;
+    updateCatalogue();
   });
 });
 
 
 /* --------------------------------------------------------------------------
-   4. STARTING STATE
-   Show every game when the page first loads. Reusing applyFilter() keeps the
-   buttons, cards, and status message in sync from the very beginning.
+   6. STARTING STATE
+   Draw the catalogue once on load so the buttons, cards, status message, and
+   empty state all match the state object from the very beginning.
    -------------------------------------------------------------------------- */
 
-applyFilter("all", "All");
+updateCatalogue();
