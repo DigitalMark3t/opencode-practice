@@ -1069,13 +1069,13 @@ footer p {
 /* ==========================================================================
    11. EDITORIAL FEATURE PAGE
    The article page reuses the catalogue's design tokens and header/footer.
-   A single centred column of about 68 characters keeps long-form reading
-   comfortable, while the header and body share the same visual language as
-   the catalogue cards.
+   A single centred column of about 66 characters keeps long-form reading
+   comfortable. Figures are allowed to extend wider than that text column on
+   desktop, while staying inside it on smaller screens.
    ========================================================================== */
 
 .article-shell {
-  max-width: 68ch;
+  max-width: 66ch;
   margin-inline: auto;
   padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3.5rem, 9vw, 6.5rem);
 }
@@ -1166,7 +1166,7 @@ footer p {
   margin-bottom: var(--space-md);
   font-size: clamp(2.1rem, 5.5vw, 3.4rem);
   line-height: 1.05;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 .article-subtitle {
@@ -1201,15 +1201,68 @@ footer p {
   border-left: 1px solid var(--color-border);
 }
 
+/* Figures ---------------------------------------------------------------- */
+
+/* Article images may run wider than the text column. On wider screens each
+   figure is pulled 5rem past the column on both sides, which keeps it
+   centred and still inside the page gutters. */
+.article-figure {
+  margin-block: clamp(2rem, 5vw, 3rem);
+}
+
+.article-figure--lead {
+  margin-top: 0;
+}
+
+.article-image {
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* These are intentional CSS-drawn placeholders, not screenshots or generated
+   game art. Each variation suggests a different moment in the game. */
+.article-image--lead {
+  background-image:
+    radial-gradient(circle at 76% 24%, var(--color-secondary-wash) 0 16%, transparent 17%),
+    linear-gradient(180deg, var(--color-accent-wash), transparent 58%),
+    linear-gradient(0deg, var(--color-accent-wash), transparent 38%);
+}
+
+.article-image--day {
+  background-image:
+    linear-gradient(180deg, var(--color-accent-wash), transparent 55%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 4.5%,
+      var(--color-accent-wash) 4.5% 9%
+    );
+}
+
+.article-image--night {
+  background-image:
+    radial-gradient(circle at 30% 30%, var(--color-accent-glow) 0 12%, transparent 13%),
+    radial-gradient(circle at 68% 22%, var(--color-secondary-wash) 0 8%, transparent 9%),
+    linear-gradient(0deg, var(--color-accent-wash), transparent 45%);
+}
+
+@media (min-width: 860px) {
+  .article-figure {
+    width: calc(100% + 10rem);
+    margin-inline: -5rem;
+  }
+}
+
 /* Long-form body copy. Sections are separated by generous space, and each
-   paragraph is followed by a readable but modest gap. */
+   paragraph is followed by a comfortable gap. */
 .article-body {
   font-size: clamp(1rem, 1.6vw, 1.075rem);
   line-height: 1.8;
 }
 
 .article-body p {
-  margin: 0 0 var(--space-md);
+  margin: 0 0 clamp(1.25rem, 2.4vw, 1.6rem);
 }
 
 .article-body h2 {
@@ -1306,6 +1359,14 @@ footer p {
   .article-game li + li {
     padding-left: 0;
     border-left: 0;
+  }
+
+  .article-figure {
+    margin-block: var(--space-lg);
+  }
+
+  .article-image {
+    border-radius: var(--radius-sm);
   }
 
   .article-body {
