@@ -133,51 +133,55 @@
         community projects.</em>
       </p>
 
-      <!-- CATALOGUE CONTROLS: search, editorial category filters, and genre
-           filters. All three are handled together by script.js. -->
+      <!-- CATALOGUE CONTROLS: search, pillar buttons, a compact genre
+           dropdown, the result count, and a clear action. All of the
+           filtering itself is handled by script.js. -->
       <div class="catalogue-controls">
 
-        <div class="search-field">
-          <label class="search-label" for="catalogue-search">Search catalogue entries</label>
-          <input
-            class="search-input"
-            id="catalogue-search"
-            name="catalogue-search"
-            type="search"
-            placeholder="Title, genre, platform, or keyword"
-            autocomplete="off"
-          >
-        </div>
-
-        <div class="filter-bar">
-          <div class="filter-group">
-            <p class="filter-group-label" id="category-filter-label">Category</p>
-            <div class="filter-controls" role="group" aria-labelledby="category-filter-label">
-              <button type="button" class="category-button" data-category="all" aria-pressed="true">All</button>
-              <button type="button" class="category-button" data-category="discover" aria-pressed="false">Discover</button>
-              <button type="button" class="category-button" data-category="revisit" aria-pressed="false">Revisit</button>
-              <button type="button" class="category-button" data-category="community" aria-pressed="false">Community Projects</button>
-            </div>
+        <div class="catalogue-search-row">
+          <div class="search-field">
+            <label class="search-label" for="catalogue-search">Search catalogue entries</label>
+            <input
+              class="search-input"
+              id="catalogue-search"
+              name="catalogue-search"
+              type="search"
+              placeholder="Title, genre, platform, or keyword"
+              autocomplete="off"
+            >
           </div>
 
           <div class="filter-group">
-            <p class="filter-group-label" id="genre-filter-label">Genre</p>
-            <div class="filter-controls" role="group" aria-labelledby="genre-filter-label">
-              <button type="button" class="filter-button" data-filter="all" aria-pressed="true">All</button>
-              <button type="button" class="filter-button" data-filter="racing" aria-pressed="false">Racing</button>
-              <button type="button" class="filter-button" data-filter="rpg" aria-pressed="false">RPG</button>
-              <button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
-              <button type="button" class="filter-button" data-filter="life-simulation" aria-pressed="false">Life Simulation</button>
-            </div>
+            <label class="filter-group-label" for="catalogue-genre">Genre</label>
+            <select class="genre-select" id="catalogue-genre" name="catalogue-genre">
+              <option value="all">All genres</option>
+              <option value="racing">Racing</option>
+              <option value="rpg">RPG</option>
+              <option value="puzzle">Puzzle</option>
+              <option value="life-simulation">Life Simulation</option>
+            </select>
           </div>
 
-          <!-- A live status message: screen readers announce this text when
-               the number of visible entries changes. -->
-          <p class="filter-status" role="status" aria-live="polite">Showing 7 of 7 entries.</p>
+          <!-- The live status message is announced when the number of
+               visible entries changes. The clear action is disabled while
+               no search text or filter is active. -->
+          <div class="catalogue-tools">
+            <p class="filter-status" role="status" aria-live="polite">Showing 7 of 7 entries.</p>
+            <button type="button" class="catalogue-clear" disabled>Clear filters</button>
+          </div>
         </div>
 
-        <!-- Shown only when no catalogue entry matches the active filters.
-             A later phase will toggle the hidden attribute. -->
+        <div class="filter-group">
+          <p class="filter-group-label" id="pillar-filter-label">Pillar</p>
+          <div class="filter-controls" role="group" aria-labelledby="pillar-filter-label">
+            <button type="button" class="category-button" data-category="all" aria-pressed="true">All</button>
+            <button type="button" class="category-button" data-category="discover" aria-pressed="false">Discover</button>
+            <button type="button" class="category-button" data-category="revisit" aria-pressed="false">Revisit</button>
+            <button type="button" class="category-button" data-category="community" aria-pressed="false">Community Projects</button>
+          </div>
+        </div>
+
+        <!-- Shown only when no catalogue entry matches the active filters. -->
         <p class="catalogue-empty" hidden>
           No catalogue entries match your search or filters. Try a different
           search, or choose All in each filter group.

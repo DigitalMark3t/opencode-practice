@@ -526,9 +526,9 @@ main {
   border-left: 2px solid var(--color-accent-soft);
 }
 
-/* Catalogue controls: search, category group, genre group, and status.
-   The wrapper is a grid child, so spanning every column keeps the controls
-   exactly as wide as the card grid below. */
+/* Catalogue controls: search, pillar buttons, genre dropdown, result count,
+   and a clear action. The wrapper is a grid child, so spanning every column
+   keeps the controls exactly as wide as the card grid below. */
 .catalogue-controls {
   grid-column: 1 / -1;
   display: grid;
@@ -537,8 +537,17 @@ main {
 
 /* Search field ----------------------------------------------------------- */
 
+/* Search, genre, and the result tools share one compact row. */
+.catalogue-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-md);
+}
+
 .search-field {
   display: flex;
+  flex: 1 1 16rem;
   flex-direction: column;
   gap: var(--space-xs);
   max-width: 34rem;
@@ -553,6 +562,7 @@ main {
 }
 
 .search-input {
+  min-height: 2.75rem;
   padding: 0.6rem 1rem;
   font-family: inherit;
   font-size: 0.95rem;
@@ -580,9 +590,8 @@ main {
 
 /* Filter groups ---------------------------------------------------------- */
 
-/* Each group pairs a visible label with its own row of buttons, so the
-   category and genre controls can be told apart visually and by screen
-   readers (both groups use aria-labelledby). */
+/* Each group pairs a visible label with its own control, so the pillar and
+   genre filters can be told apart visually and by screen readers. */
 .filter-group {
   display: flex;
   flex-direction: column;
@@ -598,22 +607,52 @@ main {
   text-transform: uppercase;
 }
 
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--space-md);
-}
-
 .filter-controls {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
 }
 
-/* Category buttons share the genre buttons' look. They use a separate
-   class because script.js binds behaviour to .filter-button. */
-.filter-button,
+/* Compact genre dropdown. appearance: none removes the platform arrow so the
+   control keeps the site's pill shape; the two small triangles below draw a
+   quiet chevron instead. */
+.genre-select {
+  min-height: 2.75rem;
+  width: 13rem;
+  max-width: 100%;
+  padding: 0.55rem 2.2rem 0.55rem 1.1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15rem) calc(50% + 0.05rem),
+    calc(100% - 0.85rem) calc(50% + 0.05rem);
+  background-size: 0.3rem 0.3rem, 0.3rem 0.3rem;
+  background-repeat: no-repeat;
+  transition: border-color 0.18s ease;
+}
+
+.genre-select:hover {
+  border-color: var(--color-accent-soft);
+}
+
+.genre-select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-color: var(--color-accent-soft);
+}
+
+/* Pillar filters -------------------------------------------------------- */
+
+/* Pillar buttons. They sit in their own row so all four stay visible. */
 .category-button {
   padding: 0.45rem 1.05rem;
   font-family: inherit;
@@ -629,30 +668,69 @@ main {
     border-color 0.18s ease;
 }
 
-.filter-button:hover,
 .category-button:hover {
   color: var(--color-text);
   border-color: var(--color-accent-soft);
 }
 
-.filter-button[aria-pressed="true"],
 .category-button[aria-pressed="true"] {
   color: var(--color-accent);
   background-color: var(--color-accent-wash);
   border-color: var(--color-accent-soft);
 }
 
-.filter-button:focus-visible,
 .category-button:focus-visible {
   color: var(--color-text);
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
+/* Result count and the clear action sit at the right of the first row. */
+.catalogue-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-md);
+  margin-left: auto;
+}
+
 .filter-status {
-  margin: 0 0 0 auto;
+  margin: 0;
   color: var(--color-muted);
   font-size: 0.85rem;
+}
+
+.catalogue-clear {
+  min-height: 2.5rem;
+  padding: 0.45rem 1.05rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.catalogue-clear:hover:not(:disabled) {
+  color: var(--color-text);
+  background-color: var(--color-accent-wash);
+  border-color: var(--color-accent-soft);
+}
+
+.catalogue-clear:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.catalogue-clear:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 /* Empty state: hidden until a later phase decides there are no matches. */
@@ -945,18 +1023,24 @@ footer p {
     grid-template-columns: 1fr;
   }
 
-  /* Stack the filter groups and let the search field use the full width. */
-  .filter-bar {
+  /* Stack the search row and let each control use the full width. */
+  .catalogue-search-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .filter-status {
-    margin-left: 0;
+  .search-field,
+  .genre-select {
+    max-width: none;
   }
 
-  .search-field {
-    max-width: none;
+  .genre-select {
+    width: 100%;
+  }
+
+  .catalogue-tools {
+    margin-left: 0;
+    justify-content: space-between;
   }
 
   footer {

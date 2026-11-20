@@ -1,13 +1,16 @@
 /* ==========================================================================
-   GAME DISCOVERY — script.js
+   THE SIDE PATH — script.js
 
-   Filtering for the catalogue: one search field, one category group, and
-   one genre group. Every control writes into a single shared "state"
+   Filtering for the catalogue: one search field, one pillar button group,
+   and one genre dropdown. Every control writes into a single shared "state"
    object, and updateCatalogue() decides what should be visible.
 
    How the three conditions combine: an entry is shown only when it matches
-   the search text AND the selected category AND the selected genre.
-   Choosing "All" in a group switches that condition off.
+   the search text AND the selected pillar AND the selected genre.
+   Choosing "all" in a group switches that condition off.
+
+   The "Clear filters" action simply resets those three values; it does not
+   contain any filtering logic of its own.
 
    The <script> tag in index.html uses the "defer" attribute, so this file
    runs after the HTML has loaded and the elements below already exist.
@@ -22,7 +25,8 @@
 
 var searchInput = document.querySelector("#catalogue-search");
 var categoryButtons = document.querySelectorAll(".category-button");
-var genreButtons = document.querySelectorAll(".filter-button");
+var genreSelect = document.querySelector("#catalogue-genre");
+var clearButton = document.querySelector(".catalogue-clear");
 var catalogueCards = document.querySelectorAll(".catalogue-card");
 var statusMessage = document.querySelector(".filter-status");
 var emptyState = document.querySelector(".catalogue-empty");
@@ -73,8 +77,8 @@ function getSearchText(card) {
 /* --------------------------------------------------------------------------
    4. THE MAIN FUNCTION
    updateCatalogue() reads the state object and updates everything that
-   depends on it: visible cards, both button groups, the live status message,
-   and the empty state.
+   depends on it: visible cards, the pillar buttons, the genre dropdown, the
+   clear action, the live status message, and the empty state.
    -------------------------------------------------------------------------- */
 
 function updateCatalogue() {
@@ -104,8 +108,9 @@ function updateCatalogue() {
     }
   });
 
-  /* Each group is updated on its own, so exactly one button per group is
-     pressed and the groups never reset each other. */
+  /* Each group is updated on its own, so exactly one pillar button is
+     pressed and the groups never reset each other. The dropdown is simply
+     told which genre is active. */
   categoryButtons.forEach(function (button) {
     button.setAttribute(
       "aria-pressed",
@@ -113,12 +118,10 @@ function updateCatalogue() {
     );
   });
 
-  genreButtons.forEach(function (button) {
-    button.setAttribute(
-      "aria-pressed",
-      String(button.dataset.filter === state.genre)
-    );
-  });
+  genreSelect.value = state.genre;
+
+  /* The clear action only makes sense while something is filtered. */
+  clearButton.disabled = !hasActiveFilters();
 
   /* The second number is always the whole catalogue, never the filtered
      count. "entries" matches the site's catalogue terminology. */
@@ -131,7 +134,22 @@ function updateCatalogue() {
 
 
 /* --------------------------------------------------------------------------
-   5. LISTEN FOR CHANGES
+   5. IS ANYTHING FILTERED?
+   Used only to enable or disable the clear action. A search term or any
+   group set to something other than "all" counts as active.
+   -------------------------------------------------------------------------- */
+
+function hasActiveFilters() {
+  return (
+    state.search.trim() !== "" ||
+    state.category !== "all" ||
+    state.genre !== "all"
+  );
+}
+
+
+/* --------------------------------------------------------------------------
+   6. LISTEN FOR CHANGES
    Each control changes one field of the state object and then asks
    updateCatalogue() to redraw. No other field is touched, so the other
    controls keep their current values.
@@ -151,18 +169,28 @@ categoryButtons.forEach(function (button) {
   });
 });
 
-genreButtons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    state.genre = button.dataset.filter;
-    updateCatalogue();
-  });
+/* "change" fires when a different genre is chosen, including by keyboard. */
+genreSelect.addEventListener("change", function () {
+  state.genre = genreSelect.value;
+  updateCatalogue();
+});
+
+/* Clearing resets every condition. updateCatalogue() then brings the
+   field, the buttons, the dropdown, and the status message back in line. */
+clearButton.addEventListener("click", function () {
+  state.search = "";
+  state.category = "all";
+  state.genre = "all";
+
+  searchInput.value = "";
+  updateCatalogue();
 });
 
 
 /* --------------------------------------------------------------------------
-   6. STARTING STATE
-   Draw the catalogue once on load so the buttons, cards, status message, and
-   empty state all match the state object from the very beginning.
+   7. STARTING STATE
+   Draw the catalogue once on load so the controls, cards, status message,
+   and empty state all match the state object from the very beginning.
    -------------------------------------------------------------------------- */
 
 updateCatalogue();
