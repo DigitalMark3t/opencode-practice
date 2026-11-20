@@ -1,12 +1,11 @@
 /* ==========================================================================
-   GAME DISCOVERY — style.css
+   THE SIDE PATH — style.css
 
-   A single stylesheet for the one-page game discovery site.
-   No frameworks, no external fonts, no images: everything here is
-   plain CSS running on system fonts.
+   A single stylesheet shared by the catalogue and the editorial article
+   pages. No frameworks, no build tools, no images.
 
    Contents
-   1.  Design tokens (custom properties)
+   1.  Design tokens (custom properties, light and dark themes)
    2.  Base styles
    3.  Header and navigation
    4.  Hero
@@ -28,20 +27,40 @@
    Custom properties are variables. They are declared once on :root
    (the <html> element) and reused with var(--name) everywhere below.
    Change a value here and it updates across the whole site.
+
+   Colours: the light palette is the default. theme.js writes a
+   data-theme="dark" attribute onto <html> when the visitor has chosen the
+   dark theme or their operating system asks for it, and the block below
+   then swaps the palette. Components only ever use these tokens, so both
+   themes stay in sync.
    ========================================================================== */
 
 :root {
-  /* Colours */
-  --color-bg: #121417;              /* dark charcoal page background */
-  --color-surface: #181b20;         /* card background */
-  --color-surface-deep: #14171c;    /* card gradient end */
-  --color-border: #262b33;          /* subtle dividing lines */
-  --color-text: #e9ecf1;            /* main readable text */
-  --color-muted: #96a0af;           /* secondary text */
-  --color-accent: #4da3ff;          /* electric blue */
-  --color-accent-soft: rgba(77, 163, 255, 0.35);
-  --color-accent-wash: rgba(77, 163, 255, 0.08);
-  --color-accent-glow: rgba(77, 163, 255, 0.12);
+  /* Light theme palette */
+  color-scheme: light;
+
+  --color-bg: #f2eee4;              /* warm paper background */
+  --color-surface: #fffcf5;         /* card and panel background */
+  --color-surface-deep: #f7f2e7;    /* card gradient end */
+  --color-header-bg: rgba(242, 238, 228, 0.88);
+
+  --color-border: #ddd5c6;          /* subtle dividing lines */
+  --color-border-strong: #c8bfae;   /* slightly firmer outlines */
+  --color-text: #242a26;            /* main readable text */
+  --color-muted: #666b60;           /* secondary text */
+
+  --color-accent: #526b4f;          /* primary green accent */
+  --color-accent-soft: rgba(82, 107, 79, 0.32);
+  --color-accent-wash: rgba(82, 107, 79, 0.08);
+  --color-accent-glow: rgba(82, 107, 79, 0.12);
+  --color-accent-border: rgba(82, 107, 79, 0.32);
+  --color-on-accent: #fffcf5;       /* text placed on an accent fill */
+
+  --color-secondary: #a85e42;       /* warm clay accent */
+  --color-secondary-soft: rgba(168, 94, 66, 0.32);
+  --color-secondary-wash: rgba(168, 94, 66, 0.08);
+
+  --shadow-accent: 0 20px 40px -24px rgba(82, 107, 79, 0.45);
 
   /* Spacing scale */
   --space-xs: 0.5rem;
@@ -60,10 +79,44 @@
   --radius-sm: 6px;
   --radius-lg: 16px;
 
-  /* Typography: system font stack only, so nothing is downloaded */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  /* Typography. Newsreader carries the wordmark and editorial headlines;
+     DM Sans carries interface and body text. Both have system fallbacks
+     so the page stays readable if the webfonts are unavailable. */
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype",
+    Palatino, "Book Antiqua", Georgia, serif;
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
+/* Dark theme palette. Applied by theme.js, so the attribute is always
+   present before the page paints. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #171b22;
+  --color-surface: #222832;
+  --color-surface-deep: #1c222b;
+  --color-header-bg: rgba(23, 27, 34, 0.88);
+
+  --color-border: #2d3541;
+  --color-border-strong: #3d4756;
+  --color-text: #e9e6de;
+  --color-muted: #9aa4b0;
+
+  --color-accent: #8fb7e8;
+  --color-accent-soft: rgba(143, 183, 232, 0.32);
+  --color-accent-wash: rgba(143, 183, 232, 0.08);
+  --color-accent-glow: rgba(143, 183, 232, 0.12);
+  --color-accent-border: rgba(143, 183, 232, 0.32);
+  --color-on-accent: #171b22;
+
+  --color-secondary: #c18a70;
+  --color-secondary-soft: rgba(193, 138, 112, 0.32);
+  --color-secondary-wash: rgba(193, 138, 112, 0.08);
+
+  --shadow-accent: 0 20px 40px -24px rgba(0, 0, 0, 0.65);
+}
+
 
 
 /* ==========================================================================
@@ -88,7 +141,7 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
 
-  /* A very faint blue glow behind the top of the page.
+  /* A very faint accent glow behind the top of the page.
      Drawn with CSS only, so no image file is needed. */
   background-image: radial-gradient(
     ellipse 75% 50% at 78% -10%,
@@ -104,9 +157,10 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 ::selection {
@@ -120,7 +174,6 @@ a:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
 }
-
 
 /* ==========================================================================
    3. HEADER AND NAVIGATION
@@ -145,23 +198,25 @@ header {
      while the header's background still spans the full window width. */
   padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
 
-  background-color: rgba(18, 20, 23, 0.85);
+  background-color: var(--color-header-bg);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Site name: the <p><strong>GAME DISCOVERY</strong></p> in the header. */
+/* Site name: the <p><strong>GAME DISCOVERY</strong></p> in the header.
+   Newsreader gives the wordmark its editorial voice. */
 header > p {
   display: flex;
   align-items: center;
   margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* A small glowing blue square before the site name. */
+/* A small glowing accent square before the site name. */
 header > p::before {
   content: "";
   width: 0.5rem;
@@ -172,7 +227,12 @@ header > p::before {
   box-shadow: 0 0 14px var(--color-accent-soft);
 }
 
-/* The list of navigation links, laid out in a row. */
+/* The list of navigation links, laid out in a row. The auto margin keeps the
+   navigation and the theme toggle grouped on the right-hand side. */
+header nav {
+  margin-inline-start: auto;
+}
+
 nav ul {
   display: flex;
   flex-wrap: wrap;
@@ -209,11 +269,55 @@ nav a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
+/* Theme toggle: a quiet pill at the end of the header. theme.js reveals it
+   once the theme has been resolved, so it never appears as a dead control. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.theme-toggle::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
+  background-color: var(--color-accent-wash);
+  border-color: var(--color-accent-soft);
+}
+
+.theme-toggle:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.theme-toggle[hidden] {
+  display: none;
+}
+
 /* <main> uses the same centred column as the header. */
 main {
   padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
 }
-
 
 /* ==========================================================================
    4. HERO
@@ -225,7 +329,7 @@ main {
   scroll-margin-top: var(--header-offset);
 }
 
-/* A short blue accent line above the headline, purely decorative. */
+/* A short accent line above the headline, purely decorative. */
 #home::before {
   content: "";
   display: block;
@@ -251,7 +355,6 @@ main {
   font-size: clamp(1rem, 1.6vw, 1.125rem);
   color: var(--color-muted);
 }
-
 
 /* ==========================================================================
    5. FEATURED GAMES
@@ -458,7 +561,7 @@ main {
     box-shadow 0.2s ease;
 }
 
-/* A thin blue line along the top edge of every card. */
+/* A thin accent line along the top edge of every card. */
 .catalogue-card::before {
   content: "";
   position: absolute;
@@ -477,7 +580,7 @@ main {
 .catalogue-card:hover {
   transform: translateY(-4px);
   border-color: var(--color-accent-soft);
-  box-shadow: 0 20px 40px -24px rgba(77, 163, 255, 0.55);
+  box-shadow: var(--shadow-accent);
 }
 
 .catalogue-card:hover::before {
@@ -514,7 +617,7 @@ main {
   text-transform: uppercase;
 }
 
-/* A small blue dot before each category label. */
+/* A small accent dot before each category label. */
 .card-category::before {
   content: "";
   display: inline-block;
@@ -532,7 +635,7 @@ main {
   padding: 0.2rem 0.6rem;
   white-space: nowrap;
   background-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 700;
@@ -569,14 +672,14 @@ main {
   margin-left: 0;
 }
 
-/* The genre line ("Genre: Racing") is a small blue pill. It uses an
+/* The genre line ("Genre: Racing") is a small accent pill. It uses an
    explicit class so the card can gain more paragraphs later without
    changing which text receives the pill styling. */
 .card-genre {
   align-self: flex-start;
   padding: 0.25rem 0.7rem;
   background-color: var(--color-accent-wash);
-  border: 1px solid rgba(77, 163, 255, 0.28);
+  border: 1px solid var(--color-accent-border);
   border-radius: 999px;
   color: var(--color-accent);
   font-size: 0.72rem;
@@ -617,7 +720,6 @@ main {
   border-left: 1px solid var(--color-border);
 }
 
-
 /* ==========================================================================
    6. ABOUT
    ========================================================================== */
@@ -643,7 +745,6 @@ main {
   margin-top: var(--space-md);
 }
 
-
 /* ==========================================================================
    7. FOOTER
    ========================================================================== */
@@ -666,7 +767,6 @@ footer p {
   margin: 0;
 }
 
-
 /* ==========================================================================
    8. TABLET ADJUSTMENTS
    Below about 820px the grid already reflows on its own thanks to
@@ -682,7 +782,6 @@ footer p {
     padding-block: var(--space-sm);
   }
 }
-
 
 /* ==========================================================================
    9. MOBILE ADJUSTMENTS
@@ -736,7 +835,6 @@ footer p {
   }
 }
 
-
 /* ==========================================================================
    10. REDUCED-MOTION SUPPORT
    Respects the operating-system setting that asks for less animation.
@@ -754,7 +852,6 @@ footer p {
     animation-duration: 0.01ms !important;
   }
 }
-
 
 /* ==========================================================================
    11. EDITORIAL FEATURE PAGE
@@ -841,7 +938,7 @@ footer p {
 .article-genre {
   padding: 0.25rem 0.7rem;
   background-color: var(--color-accent-wash);
-  border: 1px solid rgba(77, 163, 255, 0.28);
+  border: 1px solid var(--color-accent-border);
   border-radius: 999px;
   color: var(--color-accent);
   font-size: 0.72rem;
@@ -917,11 +1014,10 @@ footer p {
   color: var(--color-text);
 }
 
-
 /* ==========================================================================
    12. CATALOGUE FEATURE LINK
    The "Read feature" action inside the Village in the Shade card. It sits
-   above the card meta row and uses the same blue accent as the rest of the
+   above the card meta row and uses the same accent as the rest of the
    interface.
    ========================================================================== */
 
@@ -964,7 +1060,6 @@ footer p {
   outline-offset: 3px;
 }
 
-
 /* ==========================================================================
    13. EDITORIAL PAGE — MOBILE ADJUSTMENTS
    The article keeps the same reading column on small screens; only spacing
@@ -996,7 +1091,6 @@ footer p {
     line-height: 1.75;
   }
 }
-
 
 /* ==========================================================================
    14. HOMEPAGE EDITORIAL SPOTLIGHT
@@ -1030,7 +1124,7 @@ footer p {
   text-transform: uppercase;
 }
 
-/* The blue dot mirrors the category labels used across the catalogue. */
+/* The accent dot mirrors the category labels used across the catalogue. */
 .editorial-kicker::before {
   content: "";
   width: 0.35rem;
