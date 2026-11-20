@@ -42,7 +42,6 @@
   --color-bg: #f2eee4;              /* warm paper background */
   --color-surface: #fffcf5;         /* card and panel background */
   --color-surface-deep: #f7f2e7;    /* card gradient end */
-  --color-header-bg: rgba(242, 238, 228, 0.88);
 
   --color-border: #ddd5c6;          /* subtle dividing lines */
   --color-border-strong: #c8bfae;   /* slightly firmer outlines */
@@ -73,7 +72,7 @@
   /* Layout */
   --content-width: 1080px;
   --gutter: clamp(1.25rem, 5vw, 3rem);
-  --header-offset: 5.5rem;          /* keeps anchored sections clear of the sticky header */
+  --header-offset: 0px;             /* header scrolls away, so anchors land flush */
 
   /* Shape */
   --radius-sm: 6px;
@@ -96,7 +95,6 @@
   --color-bg: #171b22;
   --color-surface: #222832;
   --color-surface-deep: #1c222b;
-  --color-header-bg: rgba(23, 27, 34, 0.88);
 
   --color-border: #2d3541;
   --color-border-strong: #3d4756;
@@ -177,60 +175,58 @@ a:focus-visible {
 
 /* ==========================================================================
    3. HEADER AND NAVIGATION
-   The header is sticky: it stays at the top of the window while scrolling.
-   Flexbox puts the site name on the left and the links on the right.
+   The header is deliberately not sticky: it sits at the top of the page and
+   scrolls away with the content. The wordmark leads on the left, while the
+   two navigation links and the theme toggle sit together on the right.
    ========================================================================== */
 
 header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm) var(--space-lg);
+  gap: var(--space-md) var(--space-lg);
 
-  padding-block: var(--space-md);
+  padding-block: clamp(1.25rem, 3vw, 1.75rem);
 
   /* This centres the header content in the same column as <main> below,
      while the header's background still spans the full window width. */
   padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
 
-  background-color: var(--color-header-bg);
-  backdrop-filter: blur(14px);
+  background-color: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Site name: the <p><strong>GAME DISCOVERY</strong></p> in the header.
-   Newsreader gives the wordmark its editorial voice. */
-header > p {
-  display: flex;
-  align-items: center;
-  margin: 0;
+/* Wordmark: the brand name set in Newsreader. No decorative mark competes
+   with the type, so the name carries the identity. It links home. */
+.wordmark {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: clamp(1.5rem, 2.6vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.18s ease;
 }
 
-/* A small glowing accent square before the site name. */
-header > p::before {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  margin-right: 0.65rem;
-  border-radius: 2px;
-  background-color: var(--color-accent);
-  box-shadow: 0 0 14px var(--color-accent-soft);
+.wordmark:hover {
+  color: var(--color-accent);
 }
 
-/* The list of navigation links, laid out in a row. The auto margin keeps the
-   navigation and the theme toggle grouped on the right-hand side. */
-header nav {
-  margin-inline-start: auto;
+.wordmark:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* The navigation and theme toggle travel together. On wide screens they
+   share the right-hand side; on phones they drop to their own compact row. */
+.header-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-lg);
 }
 
 nav ul {
@@ -243,13 +239,18 @@ nav ul {
   list-style: none;
 }
 
+/* Small uppercase labels keep the two links quiet next to the wordmark.
+   min-height gives the links a comfortable touch target. */
 nav a {
-  display: inline-block;
-  padding-block: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding-block: 0.25rem;
   color: var(--color-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: color 0.18s ease, border-color 0.18s ease;
@@ -269,15 +270,16 @@ nav a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
-/* Theme toggle: a quiet pill at the end of the header. theme.js reveals it
+/* Theme toggle: a quiet pill beside the navigation. theme.js reveals it
    once the theme has been resolved, so it never appears as a dead control. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 0.8rem;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.85rem;
   font-family: inherit;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -779,22 +781,29 @@ footer p {
   }
 
   header {
-    padding-block: var(--space-sm);
+    padding-block: var(--space-md);
   }
 }
 
 /* ==========================================================================
    9. MOBILE ADJUSTMENTS
-   Below 600px the header stacks vertically and stops following the scroll,
-   so it cannot cover the content on a small screen.
+   Below 600px the header becomes two short rows: the wordmark on its own,
+   then the two navigation links and the theme toggle together.
    ========================================================================== */
 
 @media (max-width: 600px) {
   header {
-    position: static;
     flex-direction: column;
     align-items: flex-start;
-    padding-block: var(--space-sm);
+    gap: var(--space-md);
+    padding-block: var(--space-md);
+  }
+
+  /* Navigation and toggle share the second row, one at each edge. */
+  .header-end {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-md);
   }
 
   nav ul {
@@ -802,14 +811,7 @@ footer p {
   }
 
   nav a {
-    font-size: 0.85rem;
-  }
-
-  /* No sticky header on phones, so no offset is needed for anchored links. */
-  #home,
-  #featured,
-  #about {
-    scroll-margin-top: 0;
+    font-size: 0.72rem;
   }
 
   #featured {

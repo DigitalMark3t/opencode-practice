@@ -21,23 +21,24 @@
 <body>
 
   <!-- ============================================================
-       HEADER: the site name and the main navigation menu.
-       The links point to the id attributes of the sections below.
+       HEADER: the wordmark, two navigation links, and the theme
+       toggle. The header scrolls away with the page (not sticky).
        ============================================================ -->
   <header>
-    <p><strong>GAME DISCOVERY</strong></p>
+    <a class="wordmark" href="index.html">The Side Path</a>
 
-    <nav aria-label="Main navigation">
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#featured">Catalogue</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </nav>
+    <div class="header-end">
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#featured">Explore</a></li>
+          <li><a href="#editorial">Editorial</a></li>
+        </ul>
+      </nav>
 
-    <button class="theme-toggle" type="button" data-theme-toggle hidden>
-      Dark
-    </button>
+      <button class="theme-toggle" type="button" data-theme-toggle hidden>
+        Dark
+      </button>
+    </div>
   </header>
 
   <!-- ============================================================

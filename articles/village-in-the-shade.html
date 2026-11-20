@@ -20,23 +20,24 @@
 <body>
 
   <!-- ============================================================
-       HEADER: the same site name and navigation as the catalogue.
-       Links return to the relevant sections of the homepage.
+       HEADER: the same wordmark, navigation, and theme toggle as the
+       homepage. Both links return to the homepage sections.
        ============================================================ -->
   <header>
-    <p><strong>GAME DISCOVERY</strong></p>
+    <a class="wordmark" href="../index.html">The Side Path</a>
 
-    <nav aria-label="Main navigation">
-      <ul>
-        <li><a href="../index.html#home">Home</a></li>
-        <li><a href="../index.html#featured">Catalogue</a></li>
-        <li><a href="../index.html#about">About</a></li>
-      </ul>
-    </nav>
+    <div class="header-end">
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="../index.html#featured">Explore</a></li>
+          <li><a href="../index.html#editorial">Editorial</a></li>
+        </ul>
+      </nav>
 
-    <button class="theme-toggle" type="button" data-theme-toggle hidden>
-      Dark
-    </button>
+      <button class="theme-toggle" type="button" data-theme-toggle hidden>
+        Dark
+      </button>
+    </div>
   </header>
 
   <main>
