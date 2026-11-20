@@ -476,10 +476,6 @@ main {
     gap: var(--space-xs);
   }
 
-  .hero-panel {
-    border-radius: var(--radius-sm);
-  }
-
   .hero-lede {
     max-width: none;
   }
@@ -958,15 +954,19 @@ main {
 
 /* ==========================================================================
    7. FOOTER
+   The wordmark and tagline sit on the left, the footer navigation on the
+   right, and the small print spans the full width underneath.
    ========================================================================== */
 
 footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-xs) var(--space-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-lg) var(--space-xl);
 
-  padding-block: var(--space-xl);
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+
+  /* Matches the centred column used by the header and <main>. */
   padding-inline: max(var(--gutter), calc((100% - var(--content-width)) / 2));
 
   color: var(--color-muted);
@@ -974,8 +974,73 @@ footer {
   border-top: 1px solid var(--color-border);
 }
 
-footer p {
+.footer-wordmark {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.footer-tagline {
   margin: 0;
+  max-width: 34ch;
+}
+
+/* Footer links use the same quiet uppercase treatment as the header. */
+.footer-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding-block: 0.25rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent-soft);
+}
+
+.footer-nav a:focus-visible {
+  color: var(--color-text);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* Small print spanning the full width, divided from the content above. */
+.footer-legal {
+  grid-column: 1 / -1;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+}
+
+.footer-legal p {
+  margin: 0;
+}
+
+.footer-legal p + p {
+  margin-top: var(--space-xs);
+  max-width: 72ch;
 }
 
 /* ==========================================================================
@@ -1044,7 +1109,8 @@ footer p {
   }
 
   footer {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
   }
 }
 
@@ -1363,10 +1429,6 @@ footer p {
 
   .article-figure {
     margin-block: var(--space-lg);
-  }
-
-  .article-image {
-    border-radius: var(--radius-sm);
   }
 
   .article-body {
