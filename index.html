@@ -77,7 +77,8 @@
       </div>
     </section>
 
-    <!-- EDITORIAL SPOTLIGHT: entry point to the first dedicated feature. -->
+    <!-- EDITORIAL SPOTLIGHT: the lead feature, with one image beside the
+         article introduction. Links to the published feature. -->
     <section class="editorial-spotlight"
              id="editorial"
              aria-labelledby="editorial-spotlight-title">
@@ -85,7 +86,12 @@
       <p class="editorial-kicker">Featured editorial</p>
 
       <div class="editorial-spotlight-grid">
-        <div class="editorial-spotlight-lead">
+        <!-- Intentional CSS-drawn placeholder image. No real screenshot or
+             AI-generated artwork is presented as game art here. Replace it
+             with a licensed image (and alt text) when one is available. -->
+        <div class="editorial-art" aria-hidden="true"></div>
+
+        <div class="editorial-spotlight-copy">
           <h2 id="editorial-spotlight-title">
             The Stakes of a Peaceful Life
           </h2>
@@ -95,9 +101,7 @@
             <li>Discover</li>
             <li>Life Simulation</li>
           </ul>
-        </div>
 
-        <div class="editorial-spotlight-copy">
           <p class="editorial-excerpt">
             Village in the Shade manages to make its familiar farming
             experience feel different by introducing something that can

@@ -1219,13 +1219,20 @@ footer p {
 
 /* ==========================================================================
    14. HOMEPAGE EDITORIAL SPOTLIGHT
-   A text-led entry point to the first dedicated feature. It sits between
-   the hero and the catalogue, so it uses the existing section rhythm and
-   a faint accent wash rather than catalogue card styling.
+   The lead feature between the hero and the catalogue: one image beside the
+   article introduction on desktop, stacking image-first on small screens.
+   It keeps the existing section rhythm and a faint accent wash rather than
+   catalogue card styling.
    ========================================================================== */
 
 .editorial-spotlight {
   padding-block: clamp(2.5rem, 6vw, 4.5rem);
+
+  /* A small left inset so the content clears the panel's left edge. It sits
+     inside the section, so the panel's outer position and width are
+     unchanged. 1.5rem is 24px. */
+  padding-inline-start: 1.5rem;
+
   scroll-margin-top: var(--header-offset);
   border-top: 1px solid var(--color-border);
   background-image: linear-gradient(
@@ -1259,20 +1266,35 @@ footer p {
   box-shadow: 0 0 12px var(--color-accent-soft);
 }
 
-/* Open two-column layout: title and metadata on the left, excerpt and
-   action on the right. */
+/* Desktop: the single feature image beside the article introduction. */
 .editorial-spotlight-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
   gap: clamp(1.5rem, 4vw, 3rem);
 }
 
-.editorial-spotlight-lead {
-  min-width: 0;
+/* The one feature image. This is an intentional CSS-drawn placeholder with a
+   dusk mood; it is not a screenshot or generated game art. */
+.editorial-art {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-image:
+    radial-gradient(circle at 72% 28%, var(--color-secondary-wash) 0 22%, transparent 23%),
+    linear-gradient(180deg, var(--color-accent-wash), transparent 60%),
+    linear-gradient(0deg, var(--color-accent-wash), transparent 40%);
 }
 
-.editorial-spotlight-lead h2 {
+.editorial-spotlight-copy {
+  min-width: 0;
+  max-width: 47ch;
+}
+
+/* The article title leads the spotlight. */
+.editorial-spotlight-copy h2 {
   max-width: 18ch;
   margin: 0 0 var(--space-md);
   font-size: clamp(1.9rem, 4vw, 2.8rem);
@@ -1286,7 +1308,7 @@ footer p {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.9rem;
-  margin: 0;
+  margin: 0 0 var(--space-md);
   padding: 0;
   list-style: none;
   color: var(--color-muted);
@@ -1299,10 +1321,6 @@ footer p {
 .editorial-meta li + li {
   padding-left: 0.9rem;
   border-left: 1px solid var(--color-border);
-}
-
-.editorial-spotlight-copy {
-  max-width: 47ch;
 }
 
 .editorial-excerpt {
@@ -1349,10 +1367,14 @@ footer p {
   outline-offset: 3px;
 }
 
-/* Tablet: the spotlight becomes a single reading column. */
+/* Tablet: a single reading column, image first. */
 @media (max-width: 820px) {
   .editorial-spotlight-grid {
     grid-template-columns: 1fr;
+  }
+
+  .editorial-art {
+    aspect-ratio: 3 / 2;
   }
 
   .editorial-kicker {
@@ -1360,15 +1382,16 @@ footer p {
   }
 }
 
-/* Mobile: tighter spacing, full-width title, and metadata that wraps
-   without stray divider lines. */
+/* Mobile: tighter spacing, a smaller left inset, a full-width title, and
+   metadata that wraps without stray divider lines. */
 @media (max-width: 600px) {
   .editorial-spotlight {
     padding-block: var(--space-lg);
+    padding-inline-start: 1rem;     /* 16px on small screens */
     scroll-margin-top: 0;
   }
 
-  .editorial-spotlight-lead h2 {
+  .editorial-spotlight-copy h2 {
     max-width: none;
   }
 
