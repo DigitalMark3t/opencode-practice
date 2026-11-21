@@ -19,6 +19,7 @@
    12. Catalogue feature link
    13. Editorial page mobile adjustments
    14. Homepage editorial spotlight
+   15. Not found page
    ========================================================================== */
 
 
@@ -1489,6 +1490,7 @@ footer {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -1604,5 +1606,37 @@ footer {
   .editorial-meta li + li {
     padding-left: 0;
     border-left: 0;
+  }
+}
+
+/* ==========================================================================
+   15. NOT FOUND PAGE
+   A short branded message that reuses the hero's typography, eyebrow, and
+   call-to-action styles. The page keeps the shared header, footer, and theme
+   behaviour so it feels like part of the publication.
+   ========================================================================== */
+
+.not-found {
+  max-width: 46ch;
+  padding-block: clamp(4rem, 12vw, 8rem);
+}
+
+.not-found h1 {
+  margin: 0 0 var(--space-md);
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.not-found-lede {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .not-found {
+    padding-block: var(--space-2xl) var(--space-xl);
   }
 }
