@@ -8,6 +8,11 @@
   <meta name="robots" content="noindex">
   <meta name="color-scheme" content="light dark">
 
+  <!-- Favicons. Root-relative paths work from every page. -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+
   <!-- Shared theme setup runs before the stylesheet so there is no flash of
        the wrong theme. It also manages the theme toggle in the header. -->
   <script src="/theme.js"></script>
@@ -35,9 +40,27 @@
         </ul>
       </nav>
 
-      <button class="theme-toggle" type="button" data-theme-toggle hidden>
-        Dark
-      </button>
+      <div class="theme-switcher" role="group" aria-label="Theme" data-theme-toggle hidden>
+        <button class="theme-option" type="button" data-theme-value="light" aria-label="Light theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <button class="theme-option" type="button" data-theme-value="dark" aria-label="Dark theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 

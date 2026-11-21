@@ -7,6 +7,11 @@
   <meta name="description" content="The Side Path is an independent gaming discovery catalogue dedicated to interesting games, memorable experiences and community projects worth exploring.">
   <meta name="color-scheme" content="light dark">
 
+  <!-- Favicons. Root-relative paths work from every page. -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+
   <link rel="canonical" href="https://thesidepath.web.id/">
 
   <!-- Open Graph and social-sharing metadata. The featured editorial artwork
@@ -70,9 +75,27 @@
         </ul>
       </nav>
 
-      <button class="theme-toggle" type="button" data-theme-toggle hidden>
-        Dark
-      </button>
+      <div class="theme-switcher" role="group" aria-label="Theme" data-theme-toggle hidden>
+        <button class="theme-option" type="button" data-theme-value="light" aria-label="Light theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <button class="theme-option" type="button" data-theme-value="dark" aria-label="Dark theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -83,7 +106,7 @@
   <main>
 
     <!-- HERO SECTION: the introduction, a clear route into the catalogue,
-         and a three-panel visual sampler. -->
+         and a three-image visual sampler. -->
     <section id="home">
       <div class="hero-copy">
         <p class="hero-eyebrow">A curated gaming discovery catalogue.</p>
@@ -100,14 +123,34 @@
         </div>
       </div>
 
-      <!-- Intentional placeholders drawn in CSS. No real screenshots or
-           AI-generated artwork are presented as game assets here. Replace
-           each panel with a licensed image when suitable assets exist, and
-           give those images their own alt text. -->
-      <div class="hero-sampler" aria-hidden="true">
-        <span class="hero-panel hero-panel--one"></span>
-        <span class="hero-panel hero-panel--two"></span>
-        <span class="hero-panel hero-panel--three"></span>
+      <!-- The hero sampler uses three supplied catalogue images, one for each
+           editorial pillar. They keep their natural proportions and are never
+           cropped, resized or re-encoded. -->
+      <div class="hero-sampler">
+        <img class="hero-panel hero-panel--one"
+             src="assets/catalogue-cards/village-in-the-shade.webp"
+             alt="Village in the Shade key art: a young villager waters a seedling on a sunlit slope above the mountain village."
+             width="1280"
+             height="720"
+             loading="eager"
+             fetchpriority="high"
+             decoding="async">
+
+        <img class="hero-panel hero-panel--two"
+             src="assets/catalogue-cards/bravely-default.webp"
+             alt="Key art for Bravely Default Flying Fairy HD Remaster: the four main characters stand on a grassy hill beneath a pale sky, with the game's logo on the left."
+             width="1600"
+             height="800"
+             loading="eager"
+             decoding="async">
+
+        <img class="hero-panel hero-panel--three"
+             src="assets/catalogue-cards/mhgu-recomp.webp"
+             alt="Key art for Monster Hunter Generations Ultimate: a Felyne hunter in the foreground and a large monster in a jungle, with the game's logo on the right."
+             width="1920"
+             height="1080"
+             loading="eager"
+             decoding="async">
       </div>
     </section>
 
@@ -223,9 +266,10 @@
       <article class="catalogue-card"
                data-category="discover"
                data-genre="life-simulation"
-               data-platform="PC"
+               data-platform="Nintendo Switch, Nintendo Switch 2, PlayStation 5, PC (Steam)"
                data-year="2026"
-               data-search="village in the shade kagatsu nippon ichi software nis america farming simulation life simulation farming sim japanese village supernatural mystery horror night exploration crops livestock fishing hunting crafting the stakes of a peaceful life">
+               data-release="2026-10-27"
+               data-search="village in the shade kagatsu nippon ichi software nis america farming simulation life simulation farming sim japanese village supernatural mystery horror night exploration crops livestock fishing hunting crafting the stakes of a peaceful life nintendo switch nintendo switch 2 playstation 5 ps5 pc steam october 27 2026 release date">
         <div class="card-media">
           <img src="assets/catalogue-cards/village-in-the-shade.webp"
                alt="Village in the Shade key art: a young villager waters a seedling on a sunlit slope above the mountain village."
@@ -251,15 +295,20 @@
 
           <p class="card-action">
             <a class="card-link"
-               href="articles/village-in-the-shade.html"
-               aria-label="Read the feature: Village in the Shade">
-              Read feature
+               href="https://www.nisamerica.com/village-in-the-shade/"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Visit the official Village in the Shade site (opens in a new tab)">
+              Official site
             </a>
           </p>
 
           <ul class="card-meta">
-            <li>PC</li>
-            <li>2026</li>
+            <li>Nintendo Switch</li>
+            <li>Nintendo Switch 2</li>
+            <li>PlayStation 5</li>
+            <li>PC (Steam)</li>
+            <li>October 27, 2026</li>
           </ul>
         </div>
       </article>

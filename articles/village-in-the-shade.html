@@ -7,6 +7,11 @@
   <meta name="description" content="How Village in the Shade makes familiar farming routines more meaningful through danger and uncertainty, in The Side Path's editorial feature.">
   <meta name="color-scheme" content="light dark">
 
+  <!-- Favicons. Root-relative paths work from every page. -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+
   <link rel="canonical" href="https://thesidepath.web.id/articles/village-in-the-shade.html">
 
   <!-- Open Graph and social-sharing metadata. The article's existing lead
@@ -51,7 +56,14 @@
       "@type": "VideoGame",
       "name": "Village in the Shade",
       "genre": "Life Simulation",
-      "gamePlatform": "PC"
+      "gamePlatform": [
+        "Nintendo Switch",
+        "Nintendo Switch 2",
+        "PlayStation 5",
+        "PC (Steam)"
+      ],
+      "datePublished": "2026-10-27",
+      "url": "https://www.nisamerica.com/village-in-the-shade/"
     },
     "isPartOf": {
       "@id": "https://thesidepath.web.id/#website"
@@ -107,9 +119,27 @@
         </ul>
       </nav>
 
-      <button class="theme-toggle" type="button" data-theme-toggle hidden>
-        Dark
-      </button>
+      <div class="theme-switcher" role="group" aria-label="Theme" data-theme-toggle hidden>
+        <button class="theme-option" type="button" data-theme-value="light" aria-label="Light theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <button class="theme-option" type="button" data-theme-value="dark" aria-label="Dark theme" aria-pressed="false">
+          <svg class="theme-option-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -141,8 +171,8 @@
 
         <ul class="article-game" aria-label="Game information">
           <li>Village in the Shade</li>
-          <li>PC</li>
-          <li>2026</li>
+          <li>Nintendo Switch, Nintendo Switch 2, PlayStation 5, PC (Steam)</li>
+          <li>October 27, 2026</li>
           <li>Nippon Ichi Software / NIS America</li>
         </ul>
       </div>

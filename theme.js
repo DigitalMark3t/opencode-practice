@@ -5,7 +5,7 @@
    colour theme to show and remembers a manual choice.
 
    Order of preference:
-   1. A saved choice in localStorage (the visitor pressed the theme toggle).
+   1. A saved choice in localStorage (the visitor pressed a theme option).
    2. The operating system setting (prefers-color-scheme).
 
    The file is loaded in the <head> without "defer", before the stylesheet,
@@ -52,7 +52,7 @@
   /* ------------------------------------------------------------------------
      2. APPLYING THE THEME
      The theme lives on <html data-theme="...">. CSS reads that attribute and
-     swaps its palette tokens. Every toggle button is kept in sync from here.
+     swaps its palette tokens. Every theme option is kept in sync from here.
      ------------------------------------------------------------------------ */
 
   function currentTheme() {
@@ -60,13 +60,16 @@
   }
 
   function updateToggles(theme) {
-    var nextName = theme === "dark" ? "light" : "dark";
-    var toggles = document.querySelectorAll("[data-theme-toggle]");
+    var options = document.querySelectorAll("[data-theme-value]");
 
-    toggles.forEach(function (toggle) {
-      toggle.textContent = nextName === "dark" ? "Dark" : "Light";
-      toggle.setAttribute("aria-label", "Switch to " + nextName + " theme");
-      toggle.setAttribute("title", "Switch to " + nextName + " theme");
+    options.forEach(function (option) {
+      var value = option.getAttribute("data-theme-value");
+      var isActive = value === theme;
+      var label = value === "dark" ? "Dark theme" : "Light theme";
+
+      option.setAttribute("aria-label", label);
+      option.setAttribute("aria-pressed", isActive ? "true" : "false");
+      option.setAttribute("title", label);
     });
   }
 
@@ -84,25 +87,35 @@
 
 
   /* ------------------------------------------------------------------------
-     4. WIRE UP THE TOGGLE BUTTONS
-     The buttons ship with the "hidden" attribute so they never appear as a
-     dead control when JavaScript is unavailable.
+     4. WIRE UP THE THEME OPTIONS
+     The switcher ships with the "hidden" attribute so it never appears as a
+     dead control when JavaScript is unavailable. Each button selects its own
+     theme directly, and aria-pressed exposes the current selection.
      ------------------------------------------------------------------------ */
 
   function wireToggles() {
-    var toggles = document.querySelectorAll("[data-theme-toggle]");
+    updateToggles(currentTheme());
 
-    toggles.forEach(function (toggle) {
-      toggle.hidden = false;
+    var switchers = document.querySelectorAll("[data-theme-toggle]");
 
-      toggle.addEventListener("click", function () {
-        var theme = currentTheme() === "dark" ? "light" : "dark";
+    switchers.forEach(function (switcher) {
+      switcher.hidden = false;
+    });
+
+    var options = document.querySelectorAll("[data-theme-value]");
+
+    options.forEach(function (option) {
+      option.addEventListener("click", function () {
+        var theme = option.getAttribute("data-theme-value");
+
+        if (theme !== "light" && theme !== "dark") {
+          return;
+        }
+
         savePreference(theme);
         applyTheme(theme);
       });
     });
-
-    updateToggles(currentTheme());
   }
 
   if (document.readyState === "loading") {
